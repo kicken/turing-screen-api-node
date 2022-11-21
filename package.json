@@ -1,0 +1,11 @@
+{
+  "name": "turing-screen-api",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "serialport": "^10.5.0",
+    "get-pixels": "^3.3.3",
+    "ndarray": "^1.0.19"
+  }
+}
+
