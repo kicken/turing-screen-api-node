@@ -2,12 +2,12 @@ import {SerialPort} from "serialport";
 import getPixels from "get-pixels";
 
 export class Display {
-    static Orientation = {
+    static Orientation = Object.freeze({
         Landscape: 1,
         Portrait: 2
-    };
+    });
 
-    static Command = {
+    static Command = Object.freeze({
         Reset: 0x65,
         Clear: 0x66,
         ToBlack: 0x67,
@@ -16,7 +16,7 @@ export class Display {
         SetBrightness: 0x6E,
         SetOrientation: 0x79,
         DisplayBitmap: 0xC5
-    };
+    });
 
     constructor(port) {
         this._port = new SerialPort({
