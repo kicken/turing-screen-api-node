@@ -28,9 +28,11 @@ export class Display {
         });
         this.width = 320;
         this.height = 480;
-        this._write(this._packCommand(0xFF)).then(() => {
-            return this.setOrientation(Display.Orientation.Portrait);
-        });
+    }
+
+    async init(o) {
+        await this._write(this._packCommand(0xFF));
+        return this.setOrientation(o || Display.Orientation.Portrait);
     }
 
     async setOrientation(orientation, reverse = false) {
@@ -77,6 +79,7 @@ export class Display {
             getPixels(buffer, type, async (err, pixels) => {
                 if (err) {
                     reject(err);
+                    return;
                 }
 
                 const w = pixels.shape[0];
