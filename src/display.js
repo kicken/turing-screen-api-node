@@ -59,7 +59,8 @@ export class Display {
     }
 
     async clear() {
-        return this._write(this._packCommand(Display.Command.Clear));
+        await this.setOrientation(Display.Orientation.Portrait);
+        return  this._write(this._packCommand(Display.Command.Clear));
     }
 
     async toBlack() {
@@ -86,20 +87,20 @@ export class Display {
                 const h = pixels.shape[1];
                 const x2 = x + w - 1;
                 const y2 = y + h - 1;
+
                 let command = this._packCommand(Display.Command.DisplayBitmap, x, y, x2, y2);
                 await this._write(command);
 
-                const colorData = new Uint16Array(w);
+                const colorData = new Uint16Array(w * h);
                 for (let y = 0; y < h; y++) {
-                    colorData.fill(0xffff);
                     for (let x = 0; x < w; x++) {
                         const r = pixels.get(x, y, 0);
                         const g = pixels.get(x, y, 1);
                         const b = pixels.get(x, y, 2);
-                        colorData[x] = this._packColor(r, g, b);
+                        colorData[(y * w) + x] = this._packColor(r, g, b);
                     }
-                    await this._write(new Uint8Array(colorData.buffer));
                 }
+                await this._write(new Uint8Array(colorData.buffer));
 
                 resolve();
             });
